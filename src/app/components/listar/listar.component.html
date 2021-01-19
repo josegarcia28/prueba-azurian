@@ -1,0 +1,54 @@
+<div class="col-lg-12 mt-3 text-center" *ngIf="!users">
+    <i class="fas fa-spinner fa-spin fa-7x"></i>
+</div>
+<div class="col-lg-12 mt-3" *ngIf="users">
+    <h1>Lista de Usuarios</h1>
+    <hr>
+    <div class="alert alert-success col-md-5 mt-3" *ngIf="statusEli == 'success'">
+        El registro se ha eliminado correctamente.
+    </div>
+    <div class="alert alert-danger col-md-5 mt-3" *ngIf="statusEli == 'error'">
+        El registro no se ha eliminado
+    </div>
+    <article class="card w-100 mt-3 mb-3" *ngFor="let user of users">
+        <div class="row">
+            <div class="col-md-8 mt-3 mb-3">
+                <h4 class="ml-3">
+                    <a [routerLink]="['/entrada', user.id]">{{user.nombre+ ' ' +user.username}}</a>
+                </h4>
+            </div>
+            <div class="col-md-4 mt-3 mb-3 text-center">
+                <a [routerLink]="['/perfil', user.id]" class="btn btn-success mr-2">Ver</a>
+                <span *ngIf="modo">
+                    <a (click)="editar(user.id)" class="btn btn-warning mr-2">Editar</a>
+
+
+                        <!-- <a (click)="deleteUser(user.id)" class="btn btn-danger ">Borrar</a> -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" [attr.data-bs-target]="'#myModal'+user.id">
+                        Eliminar
+                    </button>
+                    
+                    <div class="modal fade" id="{{'myModal'+user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Registro</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                Esta seguro que desea Elimiar el usuario: {{user.nombre+ ' ' +user.username}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button (click)="deleteUser(user.id)" type="button" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+            </div>
+        </div>
+    </article>
+</div>
